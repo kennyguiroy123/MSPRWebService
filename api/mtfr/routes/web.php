@@ -15,9 +15,9 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('/getToken','LoginController@getToken');
-$router->post('/getReduct','ReducController@getReduct');
-$router->post('/getAllReduct','ReducController@getAllReduct');
+$router->post('/login','LoginController@login');
+$router->post('/getReduct','ReductController@getReduct');
+$router->post('/getAllReduct','ReductController@getAllReduct');
 /*$router->post('/getmarques','ShopController@getmarques');
 $router->post('/login','ShopController@login');*/
 
