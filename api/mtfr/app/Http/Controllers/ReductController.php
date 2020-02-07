@@ -68,56 +68,5 @@ class ReductController extends Controller
         //var_dump($req);die;
         return response()->json($req, 200);
     }
-
-   /* public function getCategories(Request $request){
-        $db = app('db')->connection('mysql');
-        $res = $db->select("SELECT * FROM categories");
-         return response()->json($res, 200);
-        
-        
-    }
-    public function getmarques(Request $request){
-        $db = app('db')->connection('mysql');
-        $res = $db->select("SELECT * FROM marque");
-         return response()->json($res, 200);
-        
-        
-    }
-    public function login(Request $request){
-        $util = $request->all();
-        $db = app('db')->connection('mysql');
-        
-        $res = $db->select("SELECT username, password, lastname, firstname FROM user WHERE username = '".$util['username']."' LIMIT 1;");
-        //var_dump($res[0]->username);die;
-        if(isset($res[0])){
-            if (($res[0]->password == $util['password'])) {
-                $date = time() + 3600;
-                $token = bin2hex(random_bytes(16));
-                $db->update("UPDATE user set token = '".$token."',token_valid ='".$date."' WHERE username = '".$util['username']."' LIMIT 1;");
-                return response()->json(
-                    array(
-                        'token' =>  $token,
-                        "lastname" => $res[0]->lastname,
-                        "firstname" => $res[0]->firstname
-                    ), 200
-                );
-            }else{
-                return response()->json(   
-                    array(
-                        "error" => true,
-                        "description" => "Bad password",
-                    ), 401
-                );
-            }
-        }else{
-            return response()->json(
-                array(
-                    "error" => true,
-                    "description" => "User doesn't exists",
-                ), 404
-            );
-        }
-        
-    }*/
 }
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ReducController extends Controller
+class  ReducController extends Controller
 {
     public function getReduct(Request $request){
         $req = $request->all();
@@ -22,7 +22,7 @@ class ReducController extends Controller
         $db->insert("INSERT INTO utilisateurpromotions (idUtilisateur , idPromotion) VALUES (" . $userId . "," . $req['id'] . "");
         return response()->json($res, 200);
     }
-    
+
     public function getAllReduct(Request $request){
         $req = $request->all();
         $db = app('db')->connection('mysql');
@@ -33,11 +33,11 @@ class ReducController extends Controller
         }
         $idPromotions = $db->select("SELECT idPromotion FROM utilisateurpromotions WHERE idUtilisateur = ".$userId." ");
         $reqLibellePromo = "SELECT pctPromo FROM promotions ";
-        for($i=0; $i < count($idPromotions) ; $i++) { 
+        for($i=0; $i < count($idPromotions) ; $i++) {
             $reqLibellePromo += $i == 0 ? 'WHERE id = '. $idPromotions[$i] : ','.$idPromotions[$i];
         }
         $res = $db->select($reqLibellePromo);
-        
+
         //var_dump($res);die;
         return response()->json($res[0], 200);
     }
@@ -52,20 +52,20 @@ class ReducController extends Controller
         $db = app('db')->connection('mysql');
         $res = $db->select("SELECT * FROM categories");
          return response()->json($res, 200);
-        
-        
+
+
     }
     public function getmarques(Request $request){
         $db = app('db')->connection('mysql');
         $res = $db->select("SELECT * FROM marque");
          return response()->json($res, 200);
-        
-        
+
+
     }
     public function login(Request $request){
         $util = $request->all();
         $db = app('db')->connection('mysql');
-        
+
         $res = $db->select("SELECT username, password, lastname, firstname FROM user WHERE username = '".$util['username']."' LIMIT 1;");
         //var_dump($res[0]->username);die;
         if(isset($res[0])){
@@ -81,7 +81,7 @@ class ReducController extends Controller
                     ), 200
                 );
             }else{
-                return response()->json(   
+                return response()->json(
                     array(
                         "error" => true,
                         "description" => "Bad password",
@@ -96,7 +96,7 @@ class ReducController extends Controller
                 ), 404
             );
         }
-        
+
     }*/
 }
 

@@ -22,4 +22,5 @@ $router->post('/getAllReduct','ReductController@getAllReduct');
 $router->post('/login','ShopController@login');*/
 
 $router->post('/test','ReductController@test');
+$router->get('/test','ReductController@test');
 
