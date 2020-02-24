@@ -10,7 +10,7 @@ class ReductController extends Controller
         $req = $request->all();
         $db = app('db')->connection('mysql');
         try{
-            $res = $db->select("SELECT libelle FROM promotion WHERE id=  " . $req['id'] . "");
+            $res = $db->select("SELECT libelle, pctPromo , dateExpiration FROM promotion WHERE id=  " . $req['id'] . "");
         }catch( \Exception $e){
             return response()->json('mauvais id renseigné', 401);
         }
@@ -24,6 +24,10 @@ class ReductController extends Controller
             echo($e);
             return response()->json('mauvais token renseigné', 401);
         }
+        $ifPromo = $db->selectOne("SELECT id FROM utilisateurpromotions WHERE idUtilisateur = '".$userId."' AND idPromotion = '".$req['id']."' ");
+        if (isset($ifPromo)){
+            return response()->json('Promotion déjà scannée', 208);
+        }
         try{
             $db->insert('INSERT INTO utilisateurpromotions (idUtilisateur , idPromotion) VALUES (?,?)',[$userId ,$req['id']]);
         }catch( \Exception $e){
@@ -31,7 +35,7 @@ class ReductController extends Controller
         }
         return response()->json($res, 200);
     }
-    
+
     public function getAllReduct(Request $request){
         $req = $request->all();
         $db = app('db')->connection('mysql');
@@ -50,17 +54,18 @@ class ReductController extends Controller
         } catch (\Throwable $th) {
             echo($th);
         }
-        
-        $reqLibellePromo = "SELECT pctPromo FROM promotions ";
+
+        $reqLibellePromo = "SELECT pctPromo , libelle , dateExpiration FROM promotion ";
        // var_dump($idPromotions);die;
-        for($i=0; $i < count($idPromotions) ; $i++) { 
-            $reqLibellePromo .= $i == 0 ? 'WHERE id = '. $idPromotions[$i]["idPromotion"] : ','.$idPromotions[$i]["idPromotion"];
+        for($i=0; $i < count($idPromotions) ; $i++) {
+            $reqLibellePromo .= $i == 0 ? 'WHERE id IN ('. $idPromotions[$i]["idPromotion"] : ','.$idPromotions[$i]["idPromotion"];
         }
-        echo($reqLibellePromo);die;
+        $reqLibellePromo .= ")";
+        //echo($reqLibellePromo);die;
         $res = $db->select($reqLibellePromo);
-        
+
         //var_dump($res);die;
-        return response()->json($res[0], 200);
+        return response()->json($res, 200);
     }
 
     public function test(Request $request){
