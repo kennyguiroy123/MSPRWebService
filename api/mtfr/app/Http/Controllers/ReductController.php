@@ -19,6 +19,9 @@ class ReductController extends Controller
             $userId = json_decode(json_encode($userId),true);
             /*var_dump($userId);
             die;*/
+            if (is_null($userId)){
+                return response()->json('mauvais token renseigné', 401);
+            }
             $userId = $userId['id'];
         }catch( \Exception $e){
             echo($e);
@@ -44,10 +47,14 @@ class ReductController extends Controller
             $userId = json_decode(json_encode($userId),true);
             //var_dump($userId);die;
             $userId = $userId['id'];
+            if (is_null($userId)){
+                return response()->json('mauvais token renseigné', 401);
+            }
         }catch( \Exception $e){
             echo($e);
             return response()->json('mauvais token renseigné', 401);
         }
+
         try {
             $idPromotions = $db->select("SELECT idPromotion FROM utilisateurpromotions WHERE idUtilisateur = ".$userId." ");
             $idPromotions = json_decode(json_encode($idPromotions),true);
