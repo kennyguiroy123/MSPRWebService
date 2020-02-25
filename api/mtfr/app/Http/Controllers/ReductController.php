@@ -10,7 +10,7 @@ class ReductController extends Controller
         $req = $request->all();
         $db = app('db')->connection('mysql');
         try{
-            $res = $db->select("SELECT libelle, pctPromo , dateExpiration FROM promotion WHERE id=  " . $req['id'] . "");
+            $res = $db->select("SELECT libelle, pctPromo , dateExpiration FROM promotion WHERE id= '" . $req['id'] . "'");
         }catch( \Exception $e){
             return response()->json('mauvais id renseigné', 401);
         }
