@@ -9,6 +9,10 @@ class ReductController extends Controller
     public function getReduct(Request $request){
         $req = $request->all();
         $db = app('db')->connection('mysql');
+        $ifPromo = $db->selectOne("SELECT id FROM promotion WHERE id = '".$req['id']."' ");
+        if (is_null($ifPromo)){
+            return response()->json('Promotion non existante', 208);
+        }
         try{
             $res = $db->select("SELECT libelle, pctPromo , dateExpiration FROM promotion WHERE id= '" . $req['id'] . "'");
         }catch( \Exception $e){
