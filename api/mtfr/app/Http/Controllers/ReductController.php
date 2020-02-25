@@ -11,7 +11,7 @@ class ReductController extends Controller
         $db = app('db')->connection('mysql');
         $ifPromo = $db->selectOne("SELECT id FROM promotion WHERE id = '".$req['id']."' ");
         if (is_null($ifPromo)){
-            return response()->json('Promotion non existante', 208);
+            return response()->json('Promotion non existante', 204);
         }
         try{
             $res = $db->select("SELECT libelle, pctPromo , dateExpiration FROM promotion WHERE id= '" . $req['id'] . "'");
